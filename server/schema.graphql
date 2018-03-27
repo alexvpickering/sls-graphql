@@ -3,6 +3,10 @@ type Query {
   hello: String
 }
 
+type Mutation {
+  createThing(one: String, two: String): Thing
+}
+
 type Thing {
   id: ID!
   one: String
@@ -11,4 +15,5 @@ type Thing {
 
 schema {
   query: Query
+  mutation: Mutation
 }

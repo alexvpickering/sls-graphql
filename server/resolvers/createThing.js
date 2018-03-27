@@ -1,19 +1,23 @@
-var uuid = require('uuid');
-import docClient from '../utils/docClient'
+import uuid from "uuid";
+import docClient from "../utils/docClient";
 
-function saveThing(thingOne, thingTwo){
-
-  var params = {
-    TableName:'Things',
-    Item:{
-      "id": uuid.v4(),
-      "one": thingOne,
-      "two": thingTwo
-    }
+const createThing = args => {
+  console.log(args);
+  const Item = {
+    id: uuid.v4(),
+    one: args.one,
+    two: args.two
   };
-  
-  return docClient.put(params).promise();
-}
 
+  // put into dynamodb then return above Item
+  return docClient
+    .put({
+      TableName: "Things",
+      Item
+    })
+    .promise()
+    .then(res => Item)
+    .catch(err => console.log(err));
+};
 
-module.exports = saveThing;
+export default createThing;

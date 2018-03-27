@@ -1,0 +1,14 @@
+type Query {
+  getThing(id: ID!): Thing
+  hello: String
+}
+
+type Thing {
+  id: ID!
+  one: String
+  two: String
+}
+
+schema {
+  query: Query
+}

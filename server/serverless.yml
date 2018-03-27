@@ -1,0 +1,126 @@
+service: serverless-thing
+
+frameworkVersion: ">=1.21.0 <2.0.0"
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  stage: dev
+  region: us-east-2
+
+plugins:
+  - serverless-webpack
+  - serverless-dynamodb-local
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    port: 4000
+  webpackIncludeModules: true
+  dynamodb:
+    start:
+      port: 8000
+      inMemory: true
+      migrate: true
+      seed: true
+    seed:
+      test:
+        sources:
+          - table: Things
+            sources: [seed-data/Things.json]
+
+
+functions:
+  graphql:
+    handler: handler.graphqlHandler
+    role: ServiceRole
+    events:
+    - http:
+        path: graphql
+        method: post
+        cors: true
+  playground:
+    handler: handler.playgroundHandler
+    role: ServiceRole
+    events:
+    - http:
+        path: playground
+        method: get
+        cors: true
+  graphiql:
+    handler: handler.graphiqlHandler
+    role: ServiceRole
+    events:
+    - http:
+        path: graphiql
+        method: get
+        cors: true
+
+resources:
+  Resources:
+    
+    # create dynamodb table
+    ThingsTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: 'Things'
+
+    # service role for graphql lambdas
+    ServiceRole:
+      Type: "AWS::IAM::Role"
+      Properties:
+        RoleName: "DynamoRole"
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: "Allow"
+              Principal:
+                Service:
+                  - "lambda.amazonaws.com"
+              Action:
+                - "sts:AssumeRole"
+        Policies:
+          -
+            PolicyName: "DynamoRolePolicy"
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                -
+                  Effect: "Allow"
+                  Action:
+                    - "dynamodb:Query"
+                    - "dynamodb:BatchWriteItem"
+                    - "dynamodb:GetItem"
+                    - "dynamodb:DeleteItem"
+                    - "dynamodb:PutItem"
+                    - "dynamodb:Scan"
+                    - "dynamodb:UpdateItem"
+                  Resource:
+                  - Fn::GetAtt: [ ThingsTable, Arn ]
+                  - Fn::Join: ["", [ Fn::GetAtt: [ Table, Arn ], "/*" ]]
+
+    XrayLambdaRolePolicy:
+      Type: "AWS::IAM::Policy"
+      Properties:
+        PolicyName: "XrayLambdaPolicy"
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            -
+              Effect: "Allow"
+              Action:
+                - "xray:PutTraceSegments"
+                - "xray:PutTelemetryRecords"
+              Resource:
+                - "*"
+        Roles:
+          - Ref: ServiceRole

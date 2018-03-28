@@ -1,8 +1,8 @@
 import axios from "axios";
 import gql from "graphql-tag";
 
-it("works", () => {
-  const variables = { id: "2" };
+it("gets a thing", () => {
+  const variables = { id: "1" };
   const query = gql`
     query GetThing($id: ID!) {
       getThing(id: $id) {

@@ -1,0 +1,9 @@
+[
+  {
+    "id": "1",
+    "things": [
+      { "id": "1", "one": "thing 1", "two": "thing 2" },
+      { "id": "2", "one": "thing 1 two", "two": "thing 2 two" }
+    ]
+  }
+]

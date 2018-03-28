@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`works 1`] = `
+exports[`gets a thing 1`] = `
 Object {
   "getThing": Object {
-    "two": "thing 2 because",
+    "two": "thing 2",
   },
 }
 `;

@@ -1,1 +1,4 @@
-[{"id": "2", "one": "thing 1 why", "two": "thing 2 because"}]
+[
+  { "id": "1", "one": "thing 1", "two": "thing 2" },
+  { "id": "2", "one": "thing 1 two", "two": "thing 2 two" }
+]

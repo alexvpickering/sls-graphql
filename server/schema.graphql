@@ -1,16 +1,29 @@
 type Query {
   getThing(id: ID!): Thing
+  getNestedThing(id: ID!): NestedThing
   hello: String
 }
 
 type Mutation {
   createThing(one: String, two: String): Thing
+  createNestedThing(things: [ThingInput]): NestedThing
+  updateThing(id: ID!, one: String, two: String): Thing
 }
 
 type Thing {
-  id: ID!
+  id: ID
   one: String
   two: String
+}
+
+input ThingInput {
+  one: String
+  two: String
+}
+
+type NestedThing {
+  id: ID!
+  things: [Thing]
 }
 
 schema {

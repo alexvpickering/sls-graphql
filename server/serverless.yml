@@ -28,6 +28,8 @@ custom:
         sources:
           - table: Things
             sources: [seed-data/Things.json]
+          - table: NestedThings
+            sources: [seed-data/NestedThings.json]
 
 
 functions:
@@ -73,6 +75,21 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: 'Things'
+      
+    # create dynamodb table
+    NestedThingsTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: 'NestedThings'
 
     # service role for graphql lambdas
     ServiceRole:
@@ -106,7 +123,9 @@ resources:
                     - "dynamodb:UpdateItem"
                   Resource:
                   - Fn::GetAtt: [ ThingsTable, Arn ]
+                  - Fn::GetAtt: [ NestedThingsTable, Arn ]
                   - Fn::Join: ["", [ Fn::GetAtt: [ Table, Arn ], "/*" ]]
+                  - Fn::Join: ["", [ Fn::GetAtt: [ NestedThingsTable, Arn ], "/*" ]]
 
     XrayLambdaRolePolicy:
       Type: "AWS::IAM::Policy"

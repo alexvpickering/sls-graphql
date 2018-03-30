@@ -12,8 +12,18 @@ plugins:
   - serverless-webpack
   - serverless-dynamodb-local
   - serverless-offline
+  - serverless-stack-output
 
 custom:
+  output:
+    file: stack-output.json 
+
+  localstack:
+    stages:
+      - dev
+    endpoints:
+      S3: http://localhost:4572
+
   serverless-offline:
     port: 4000
   webpackIncludeModules: true
@@ -76,7 +86,7 @@ resources:
           WriteCapacityUnits: 1
         TableName: 'Things'
       
-    # create dynamodb table
+    # create another dynamodb table
     NestedThingsTable:
       Type: 'AWS::DynamoDB::Table'
       Properties:
@@ -90,6 +100,19 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: 'NestedThings'
+
+    # create assets bucket
+    ThingsBucket: 
+      Type: AWS::S3::Bucket
+      Properties: 
+        BucketName: ${self:service}-files
+        CorsConfiguration:
+          CorsRules:
+            - AllowedMethods:
+                - GET
+                - HEAD
+              AllowedOrigins:
+                - "*"
 
     # service role for graphql lambdas
     ServiceRole:
@@ -106,13 +129,24 @@ resources:
               Action:
                 - "sts:AssumeRole"
         Policies:
-          -
-            PolicyName: "DynamoRolePolicy"
+          # policy to access s3 bucket
+          - PolicyName: "S3RolePolicy"
             PolicyDocument:
               Version: "2012-10-17"
               Statement:
-                -
-                  Effect: "Allow"
+                - Effect: "Allow"
+                  Action:
+                    - "s3:GetObject"
+                  Resource:
+                  - Fn::GetAtt: [ ThingsBucket, Arn ]
+                  - Fn::Join: ["", [ Fn::GetAtt: [ ThingsBucket, Arn ], "/*" ]]
+
+          # policy to access dynamodb table
+          - PolicyName: "DynamoRolePolicy"
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                - Effect: "Allow"
                   Action:
                     - "dynamodb:Query"
                     - "dynamodb:BatchWriteItem"
@@ -124,7 +158,7 @@ resources:
                   Resource:
                   - Fn::GetAtt: [ ThingsTable, Arn ]
                   - Fn::GetAtt: [ NestedThingsTable, Arn ]
-                  - Fn::Join: ["", [ Fn::GetAtt: [ Table, Arn ], "/*" ]]
+                  - Fn::Join: ["", [ Fn::GetAtt: [ ThingsTable, Arn ], "/*" ]]
                   - Fn::Join: ["", [ Fn::GetAtt: [ NestedThingsTable, Arn ], "/*" ]]
 
     XrayLambdaRolePolicy:
@@ -134,8 +168,7 @@ resources:
         PolicyDocument:
           Version: "2012-10-17"
           Statement:
-            -
-              Effect: "Allow"
+            - Effect: "Allow"
               Action:
                 - "xray:PutTraceSegments"
                 - "xray:PutTelemetryRecords"
@@ -143,3 +176,14 @@ resources:
                 - "*"
         Roles:
           - Ref: ServiceRole
+
+  Outputs:
+    ThingsTable:
+      Value:
+        Ref: ThingsTable
+    NestedThingsTable:
+      Value:
+        Ref: NestedThingsTable
+    ThingsBucket:
+      Value: 
+        Ref : ThingsBucket

@@ -16,7 +16,7 @@ const createNestedThing = args => {
     })
     .promise()
     .then(res => Item)
-    .catch(err => console.log("error"));
+    .catch(error => console.log(error.message));
 };
 
 export default createNestedThing;

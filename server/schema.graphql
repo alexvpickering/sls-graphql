@@ -2,6 +2,7 @@ type Query {
   getThing(id: ID!): Thing
   getNestedThing(id: ID!): NestedThing
   hello: String
+  s3thing(id: ID!): String
 }
 
 type Mutation {
@@ -14,6 +15,7 @@ type Thing {
   id: ID
   one: String
   two: String
+  s3thing: String
 }
 
 input ThingInput {

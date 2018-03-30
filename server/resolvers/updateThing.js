@@ -28,7 +28,7 @@ const updateThing = args => {
     })
     .promise()
     .then(res => res.Attributes)
-    .catch(err => console.log(err));
+    .catch(error => console.log(error.message));
 };
 
 export default updateThing;

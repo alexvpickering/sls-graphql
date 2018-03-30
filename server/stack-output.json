@@ -1,0 +1,10 @@
+{
+  "PlaygroundLambdaFunctionQualifiedArn": "arn:aws:lambda:us-east-2:276662185266:function:serverless-thing-production-playground:1",
+  "ThingsBucket": "serverless-thing-files",
+  "ThingsTable": "Things",
+  "NestedThingsTable": "NestedThings",
+  "GraphqlLambdaFunctionQualifiedArn": "arn:aws:lambda:us-east-2:276662185266:function:serverless-thing-production-graphql:1",
+  "ServiceEndpoint": "https://vfb0y5vyl1.execute-api.us-east-2.amazonaws.com/production",
+  "ServerlessDeploymentBucketName": "serverless-thing-product-serverlessdeploymentbuck-1bqoz831wkvfd",
+  "GraphiqlLambdaFunctionQualifiedArn": "arn:aws:lambda:us-east-2:276662185266:function:serverless-thing-production-graphiql:1"
+}

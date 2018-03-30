@@ -22,6 +22,7 @@ it("creates a thing", async () => {
       variables
     })
     .then(res => {
+      // console.log(res);
       const data = res.data.data.createThing;
       expect(res.status).toBe(200);
       expect(data).toEqual(variables);

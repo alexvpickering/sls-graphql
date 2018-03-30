@@ -17,7 +17,7 @@ const createThing = args => {
     })
     .promise()
     .then(res => Item)
-    .catch(err => console.log(err));
+    .catch(error => console.log(error.message));
 };
 
 export default createThing;

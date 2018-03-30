@@ -10,7 +10,7 @@ const getThing = args => {
     })
     .promise()
     .then(res => res.Item)
-    .catch(err => console.log(err));
+    .catch(error => console.log(error.message));
 };
 
 export default getThing;

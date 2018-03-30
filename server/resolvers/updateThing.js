@@ -1,4 +1,4 @@
-import docClient from "../utils/docClient";
+const docClient = require("../utils/docClient");
 
 const updateThing = args => {
   const expAtrVals = {};
@@ -31,4 +31,4 @@ const updateThing = args => {
     .catch(error => console.log(error.message));
 };
 
-export default updateThing;
+module.exports = updateThing;

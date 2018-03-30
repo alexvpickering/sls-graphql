@@ -1,5 +1,5 @@
-import uuid from "uuid";
-import docClient from "../utils/docClient";
+const uuid = require("uuid");
+const docClient = require("../utils/docClient");
 
 const createNestedThing = args => {
   const Item = {
@@ -19,4 +19,4 @@ const createNestedThing = args => {
     .catch(error => console.log(error.message));
 };
 
-export default createNestedThing;
+module.exports = createNestedThing;

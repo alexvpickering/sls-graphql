@@ -1,3 +1,6 @@
+// fix for xray local
+process.env.AWS_XRAY_CONTEXT_MISSING = "LOG_ERROR";
+
 const AWSXRay = require("aws-xray-sdk");
 const AWS = AWSXRay.captureAWS(require("aws-sdk"));
 
@@ -8,10 +11,12 @@ if (process.env.NODE_ENV === "production") {
 } else {
   // local stack s3
   s3 = new AWS.S3({
-    endpoint: "http://localhost:4572",
+    endpoint: "http://localhost:4569",
     s3ForcePathStyle: true
   });
 }
 
-export const Bucket = "serverless-thing-files";
-export default s3;
+module.exports = {
+  Bucket: "serverless-thing-files",
+  s3: s3
+};

@@ -1,4 +1,4 @@
-import docClient from "../utils/docClient";
+const docClient = require("../utils/docClient");
 
 const getThing = args => {
   return docClient
@@ -13,4 +13,4 @@ const getThing = args => {
     .catch(error => console.log(error.message));
 };
 
-export default getThing;
+module.exports = getThing;

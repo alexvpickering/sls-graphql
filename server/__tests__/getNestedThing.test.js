@@ -1,6 +1,5 @@
-import axios from "axios";
-import gql from "graphql-tag";
-const NestedThings = require("../seed-data/NestedThings");
+const axios = require("axios");
+const gql = require("graphql-tag");
 
 it("gets a nested thing", () => {
   const variables = { id: "1" };
@@ -23,7 +22,7 @@ it("gets a nested thing", () => {
       variables
     })
     .then(res => {
-      expect(res.data.data.getNestedThing).toEqual(NestedThings[0]);
       expect(res.status).toBe(200);
+      expect(res.data.data.getNestedThing).toMatchSnapshot();
     });
 });

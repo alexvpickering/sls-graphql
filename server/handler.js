@@ -1,9 +1,10 @@
-import "babel-polyfill";
-import { graphqlLambda, graphiqlLambda } from "apollo-server-lambda";
-import lambdaPlayground from "graphql-playground-middleware-lambda";
-import { makeExecutableSchema } from "graphql-tools";
-import { resolvers } from "./resolvers";
-import fs from "fs";
+require("babel-polyfill");
+const { graphqlLambda, graphiqlLambda } = require("apollo-server-lambda");
+const { makeExecutableSchema } = require("graphql-tools");
+const resolvers = require("./resolvers");
+const fs = require("fs");
+const lambdaPlayground = require("graphql-playground-middleware-lambda")
+  .default;
 
 const schema = fs.readFileSync("schema.graphql", "utf8");
 

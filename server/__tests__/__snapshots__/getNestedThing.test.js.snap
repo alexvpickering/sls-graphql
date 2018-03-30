@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`gets a nested thing 1`] = `
+Object {
+  "id": "1",
+  "things": Array [
+    Object {
+      "id": "1",
+      "one": "thing 1",
+      "two": "thing 2",
+    },
+    Object {
+      "id": "2",
+      "one": "thing 1 two",
+      "two": "thing 2 two",
+    },
+  ],
+}
+`;

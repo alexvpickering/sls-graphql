@@ -1,9 +1,9 @@
-import getThing from "./resolvers/getThing";
-import getNestedThing from "./resolvers/getNestedThing";
-import createThing from "./resolvers/createThing";
-import updateThing from "./resolvers/updateThing";
-import createNestedThing from "./resolvers/createNestedThing";
-import s3thing from "./resolvers/s3thing";
+const getThing = require("./resolvers/getThing");
+const getNestedThing = require("./resolvers/getNestedThing");
+const createThing = require("./resolvers/createThing");
+const updateThing = require("./resolvers/updateThing");
+const createNestedThing = require("./resolvers/createNestedThing");
+const s3thing = require("./resolvers/s3thing");
 
 // eslint-disable-next-line import/prefer-default-export
 export const resolvers = {
@@ -20,3 +20,5 @@ export const resolvers = {
     s3thing: obj => s3thing(obj)
   }
 };
+
+module.exports = resolvers;

@@ -1,5 +1,5 @@
-import uuid from "uuid";
-import docClient from "../utils/docClient";
+const uuid = require("uuid");
+const docClient = require("../utils/docClient");
 
 const createThing = args => {
   console.log(args);
@@ -20,4 +20,4 @@ const createThing = args => {
     .catch(error => console.log(error.message));
 };
 
-export default createThing;
+module.exports = createThing;

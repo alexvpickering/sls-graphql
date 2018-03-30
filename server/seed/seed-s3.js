@@ -1,13 +1,4 @@
-import s3, { Bucket } from "../utils/s3";
-
-const s3seed = () => {
-  s3
-    .createBucket({ Bucket })
-    .promise()
-    .then(res => console.log(res))
-    .catch(err => console.log(err.stack))
-    .then(seedBucket());
-};
+const { s3, Bucket } = require("../utils/s3");
 
 const seedBucket = () => {
   const S3Objects = [
@@ -33,4 +24,4 @@ const seedBucket = () => {
   });
 };
 
-s3seed();
+seedBucket();

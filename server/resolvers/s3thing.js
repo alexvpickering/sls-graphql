@@ -1,4 +1,4 @@
-import s3, { Bucket } from "../utils/s3";
+const { s3, Bucket } = require("../utils/s3");
 
 const s3thing = obj => {
   console.log(obj);
@@ -12,4 +12,4 @@ const s3thing = obj => {
     .catch(error => console.log(error.message));
 };
 
-export default s3thing;
+module.exports = s3thing;

@@ -1,5 +1,5 @@
-import axios from "axios";
-import gql from "graphql-tag";
+const axios = require("axios");
+const gql = require("graphql-tag");
 
 it("gets a s3thing", () => {
   const variables = { id: "1" };

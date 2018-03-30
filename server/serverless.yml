@@ -10,6 +10,7 @@ provider:
 
 plugins:
   - serverless-webpack
+  - serverless-s3-local
   - serverless-dynamodb-local
   - serverless-offline
   - serverless-stack-output
@@ -17,13 +18,8 @@ plugins:
 custom:
   output:
     file: stack-output.json 
-
-  localstack:
-    stages:
-      - dev
-    endpoints:
-      S3: http://localhost:4572
-
+  s3:
+    directory: /tmp
   serverless-offline:
     port: 4000
   webpackIncludeModules: true
@@ -32,15 +28,7 @@ custom:
       port: 8000
       inMemory: true
       migrate: true
-      seed: true
-    seed:
-      test:
-        sources:
-          - table: Things
-            sources: [seed-data/Things.json]
-          - table: NestedThings
-            sources: [seed-data/NestedThings.json]
-
+      seed: false
 
 functions:
   graphql:

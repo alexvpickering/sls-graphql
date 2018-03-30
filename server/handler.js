@@ -1,11 +1,10 @@
 require("babel-polyfill");
+// prettier-ignore
+const lambdaPlayground = require("graphql-playground-middleware-lambda").default;
 const { graphqlLambda, graphiqlLambda } = require("apollo-server-lambda");
 const { makeExecutableSchema } = require("graphql-tools");
 const resolvers = require("./resolvers");
 const fs = require("fs");
-const lambdaPlayground = require("graphql-playground-middleware-lambda")
-  .default;
-
 const schema = fs.readFileSync("schema.graphql", "utf8");
 
 const myGraphQLSchema = makeExecutableSchema({
